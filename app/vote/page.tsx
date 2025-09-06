@@ -583,27 +583,25 @@ export default function VotePage() {
                 <CardTitle className="text-2xl">CNIC Verification</CardTitle>
                 <CardDescription>Upload your CNIC to verify your identity and auto-fill voter details</CardDescription>
               </CardHeader>
-              <CardContent className="text-center space-y-4">
-                <Button size="lg" onClick={() => setShowCNICModal(true)} className="px-8 py-6 text-lg">
-                  <Upload className="w-5 h-5 mr-2" />
-                  Upload CNIC
-                </Button>
-                <p className="text-sm text-muted-foreground">Supported formats: JPG, PNG • Maximum size: 5MB</p>
-                
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">Or</span>
-                  </div>
-                </div>
-                
-                <Button variant="outline" onClick={resetToManualEntry} className="px-8 py-6 text-lg">
-                  <User className="w-5 h-5 mr-2" />
-                  Enter Details Manually
-                </Button>
-              </CardContent>
+<CardContent className="flex flex-col items-center gap-4">
+  <Button size="lg" onClick={() => setShowCNICModal(true)} className="w-full max-w-xs px-8 py-6 text-lg">
+    <Upload className="w-5 h-5 mr-2" />
+    Upload CNIC
+  </Button>
+  <p className="text-sm text-muted-foreground w-full max-w-xs text-center">Supported formats: JPG, PNG • Maximum size: 5MB</p>
+  
+  {/* Divider with "Or" */}
+  <div className="flex items-center w-full max-w-xs my-2">
+    <div className="flex-grow border-t border-muted-foreground/30"></div>
+    <span className="mx-3 text-xs uppercase text-muted-foreground bg-background px-2 tracking-widest">Or</span>
+    <div className="flex-grow border-t border-muted-foreground/30"></div>
+  </div>
+  
+  <Button variant="outline" onClick={resetToManualEntry} className="w-full max-w-xs px-8 py-6 text-lg">
+    <User className="w-5 h-5 mr-2" />
+    Enter Details Manually
+  </Button>
+</CardContent>
             </Card>
           </div>
         )}
@@ -759,17 +757,20 @@ export default function VotePage() {
                   </Alert>
                 )}
 
-                <div className="flex gap-4">
-                  <Button variant="outline" onClick={() => setCurrentStep(2)} className="flex-1">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back
-                  </Button>
-                  <Button onClick={proceedToConfirmation} disabled={!selectedParty} className="flex-1">
-                    <ArrowRight className="w-4 h-4 mr-2" />
-                    Continue to Confirmation
-                  </Button>
-                </div>
+                {/* Add bottom padding for fixed button bar on mobile */}
+                <div className="pb-32 sm:pb-0"></div>
               </CardContent>
+              {/* Fixed bottom action bar for mobile, static on desktop */}
+              <div className="flex gap-4 fixed bottom-0 left-0 w-full bg-white/90 p-4 z-50 border-t sm:static sm:bg-transparent sm:p-0 sm:border-0 max-w-4xl mx-auto">
+                <Button variant="outline" onClick={() => setCurrentStep(2)} className="flex-1">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back
+                </Button>
+                <Button onClick={proceedToConfirmation} disabled={!selectedParty} className="flex-1">
+                  <ArrowRight className="w-4 h-4 mr-2" />
+                  Continue to Confirmation
+                </Button>
+              </div>
             </Card>
           </div>
         )}
@@ -810,7 +811,7 @@ export default function VotePage() {
                       <div className="flex items-start space-x-3 p-3 bg-white/50 rounded-lg border">
                         <User className="w-5 h-5 text-primary mt-0.5" />
                         <div className="flex-1">
-                          <label className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Father's Name</label>
+                          <label className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Father's & Husband Name</label>
                           <p className="font-semibold text-lg text-foreground">{voterDetails.father_name}</p>
                         </div>
                       </div>
@@ -836,35 +837,35 @@ export default function VotePage() {
                   </div>
 
                   {/* Enhanced Party Selection Summary */}
-                  {selectedParty && (
-                    <div className="bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border border-primary/20 rounded-lg p-6">
-                      <div className="flex items-center space-x-3 mb-4">
-                        <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                          <Vote className="w-5 h-5 text-primary" />
-                        </div>
-                        <h3 className="font-semibold text-lg text-foreground">Selected Party</h3>
-                      </div>
-                      
-                      <div className="flex items-center space-x-6 p-4 bg-white/50 rounded-lg border">
-                        <div
-                          className={`w-16 h-16 ${selectedParty.color} rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg`}
-                        >
-                          {selectedParty.logo}
-                        </div>
-                        <div className="flex-1">
-                          <p className="font-bold text-2xl text-foreground">{selectedParty.name}</p>
-                          <p className="text-lg text-muted-foreground font-medium">{selectedParty.fullName}</p>
-                          <p className="text-sm text-muted-foreground italic mt-1">{selectedParty.description}</p>
-                        </div>
-                        <div className="text-right">
-                          <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                            <CheckCircle className="w-4 h-4 mr-1" />
-                            Selected
-                          </Badge>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+{selectedParty && (
+  <div className="bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border border-primary/20 rounded-lg p-6">
+    <div className="flex items-center space-x-3 mb-4">
+      <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+        <Vote className="w-5 h-5 text-primary" />
+      </div>
+      <h3 className="font-semibold text-lg text-foreground">Selected Party</h3>
+    </div>
+    {/* Responsive party summary: column on mobile, row on desktop */}
+    <div className="flex flex-col md:flex-row md:items-center md:space-x-6 space-y-4 md:space-y-0 p-4 bg-white/50 rounded-lg border text-center md:text-left">
+      <div
+        className={`w-16 h-16 ${selectedParty.color} rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg mx-auto md:mx-0`}
+      >
+        {selectedParty.logo}
+      </div>
+      <div className="flex-1">
+        <p className="font-bold text-2xl text-foreground">{selectedParty.name}</p>
+        <p className="text-lg text-muted-foreground font-medium">{selectedParty.fullName}</p>
+        <p className="text-sm text-muted-foreground italic mt-1">{selectedParty.description}</p>
+      </div>
+      <div className="flex justify-center md:justify-end">
+        <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+          <CheckCircle className="w-4 h-4 mr-1" />
+          Selected
+        </Badge>
+      </div>
+    </div>
+  </div>
+)}
 
                   {/* Vote Summary Card */}
                   <div className="bg-gradient-to-r from-accent/5 to-accent/10 border border-accent/20 rounded-lg p-6">
@@ -872,20 +873,20 @@ export default function VotePage() {
                       <Shield className="w-5 h-5 text-accent" />
                       <span>Vote Summary</span>
                     </h3>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center py-2 border-b border-accent/10">
-                        <span className="text-muted-foreground">Voting Date & Time:</span>
-                        <span className="font-medium">{getCurrentDateTime()}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-accent/10">
-                        <span className="text-muted-foreground">Voter ID:</span>
-                        <span className="font-mono font-medium">{formatCNIC(voterDetails.cnic)}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-muted-foreground">Selected Party:</span>
-                        <span className="font-medium">{selectedParty?.name} ({selectedParty?.fullName})</span>
-                      </div>
-                    </div>
+<div className="space-y-3">
+  <div className="flex flex-col items-start gap-1 py-2 border-b border-accent/10 md:flex-row md:items-center md:justify-between">
+    <span className="text-muted-foreground">Voting Date & Time:</span>
+    <span className="font-medium break-all">{getCurrentDateTime()}</span>
+  </div>
+  <div className="flex flex-col items-start gap-1 py-2 border-b border-accent/10 md:flex-row md:items-center md:justify-between">
+    <span className="text-muted-foreground">Voter ID:</span>
+    <span className="font-mono font-medium break-all">{formatCNIC(voterDetails.cnic)}</span>
+  </div>
+  <div className="flex flex-col items-start gap-1 py-2 md:flex-row md:items-center md:justify-between">
+    <span className="text-muted-foreground">Selected Party:</span>
+    <span className="font-medium break-all">{selectedParty?.name} ({selectedParty?.fullName})</span>
+  </div>
+</div>
                   </div>
 
                   <Alert className="border-orange-200 bg-orange-50">
