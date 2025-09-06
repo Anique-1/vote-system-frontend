@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Pakistan Election System',
   description: 'A secure and transparent voting system for Pakistan elections.',
   icons: {
-    icon: '/favicon_1.png'}
+    icon: '/favicon_1-Photoroom.png'}
 }
 
 export default function RootLayout({
